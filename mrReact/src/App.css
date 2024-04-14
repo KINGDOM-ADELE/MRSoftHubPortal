@@ -1,0 +1,141 @@
+.container {
+  margin:auto;
+  margin-top: 20px;
+  max-width: 1000px;
+}
+
+.ceteredText{
+  text-align: center;
+  margin: 0;
+}
+
+.main{
+  min-height: 100svh;
+}
+
+.file-upload-form {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  transition: border 0.3s;
+}
+
+.file-upload-form.dragging {
+  border-color: #66bb6a;
+}
+
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.file-upload-label h3 {
+  margin: 0;
+}
+
+.file-upload-design {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-upload-design svg {
+  width: 50px;
+  fill: #666;
+}
+
+.formInput {
+  margin-bottom: 10px;
+}
+
+.file-input {
+  display: none; /* Hide the file input */
+}
+
+.browse-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.browse-button:hover {
+  background-color: #0056b3;
+}
+
+/* Additional Styles for the Selected File Display */
+.selected-file {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: center; /* Center the text */
+}
+
+.selected-file-name {
+  font-weight: bold;
+  display: inline-block; /* Ensure the file name is displayed in a block */
+}
+
+/* Add a spinning animation for the file upload button */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.uploading {
+  animation: spin 1s linear infinite; /* Apply the spinning animation */
+}
+
+/* Add a pulsing animation for the file upload button */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.pulsing {
+  animation: pulse 1s ease-in-out infinite; /* Apply the pulsing animation */
+}
+
+/* Header.css */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+.logo-container {
+  flex: 1;
+}
+
+.logo {
+  width: 100px;
+}
+
+.nav {
+  flex: 2;
+  max-width: 300px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: end;
+  gap: 15px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ccc;
+}

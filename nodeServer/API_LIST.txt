@@ -1,0 +1,7 @@
+
+
+# CV
+# methods: get
+{{API_base_url}}api/v1/supportscv
+http://localhost:7990/api/v1/supportscv
+https://mrcv.onrender.com/api/v1/supportscv
