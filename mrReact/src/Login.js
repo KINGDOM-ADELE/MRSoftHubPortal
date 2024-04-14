@@ -1,40 +1,95 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from './Context/App_Context'
+import { BeatLoader } from 'react-spinners';
+
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { API_base_url, handleAlreadyLoggedIn, StoreToken, StoreUserObj} = useContext(AppContext)
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleLogin = () => {
-    // Your authentication logic goes here
-    // For demonstration, let's assume authentication is successful if username and password are not empty
-    if (username && password) {
-      // Redirect to admin page after successful login
-      // You can use history.push("/admin") if you are using withRouter HOC
-      window.location.href = "/admin";
+console.log('login API_base_url', API_base_url)
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${API_base_url}api/v1/users/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        data.token && StoreToken(data.token) 
+        data.data && StoreUserObj(data.data)
+        console.log('User ', data.data)
+        if(data.data.role === 'admin'){
+          navigate(`/Admin`)
+        }
+        else{
+          navigate(`/`)
+        }
+      } else {
+        throw Error(`${data.message}`)
+      }
+
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError(`${error}...`);
     }
+
+    setIsLoading(false);
   };
 
   return (
     <div style={loginContainerStyle}>
       <h2 style={titleStyle}>Admin Login</h2>
       <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        type='email'
+        name='email'
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
         style={inputStyle}
       />
       <br />
       <input
-        type="password"
+        type='password'
+        name='password'
         placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={formData.password}
+        onChange={handleChange}
         style={inputStyle}
       />
       <br />
-      <button onClick={handleLogin} style={buttonStyle}>Login</button>
+      {error && <div className='error-message'>{error}</div>}
+
+      <button onClick={handleSubmit} style={buttonStyle}>
+       
+        {isLoading ? (
+          <BeatLoader color='#ffffff' loading={isLoading} size={8} />
+        ) : (
+          'Login'
+        )}
+        </button>
       <p style={linkStyle}>Don't have an account? <Link to="/signup">Sign up</Link></p>
     </div>
   );

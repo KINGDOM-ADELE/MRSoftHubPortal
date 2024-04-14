@@ -1,24 +1,21 @@
+// Import the express-rate-limit middleware function
 const RateLimit = require('express-rate-limit');
 
-// Function to calculate the rate limit dynamically based on the provided limit
+// Function to calculate the rate limit dynamically based on some variables
 function calculateRateLimit(limit) {
     // Your logic to calculate the rate limit dynamically
-    const dynamicLimit = limit; // Use the provided limit
+    const dynamicLimit = limit; // Example: calculated dynamically
     return dynamicLimit;
 }
 
 // Create a rate limiter middleware with dynamic limit
-const RateLimiter = (limit) => {
-    return (req, res, next) => {
-        const dynamicLimit = calculateRateLimit(limit);
-        const rateLimitMiddleware = new RateLimit({
-            windowMs: 60 * 1000, // 1 minute window
-            max: dynamicLimit, // dynamically calculated limit
-            message: "Too many requests from this IP, please try again later",
-            headers: true, // send custom rate limit header
-        });
-        rateLimitMiddleware(req, res, next);
-    };
+const dynamicRateLimiter = (limit) => {
+    return RateLimit({
+        windowMs: 60 * 1000, // 1 minute window
+        max: calculateRateLimit(limit), // dynamically calculated limit
+        message: "Too many requests from this IP, please try again later",
+        headers: true, // send custom rate limit header
+    });
 };
 
-module.exports = RateLimiter;
+module.exports = dynamicRateLimiter;
