@@ -53,8 +53,9 @@ const router = express.Router()
 //     .delete(authController.protect,authController.restrict('admin'),authController.deleteUser)// for multiple roles
 
 
-// router.route('/')
-//     .get(authController.protect,authController.getUsers)
+router.route('/')
+    .get(authController.getUsers)
+    // .get(authController.protect,authController.getUsers)
 //     .put(authController.protect,authController.updateUser)
 //     .patch(authController.protect,authController.updateUser)
 

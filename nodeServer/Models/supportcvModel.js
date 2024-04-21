@@ -4,7 +4,7 @@ const AutoLogFile = require('../Utils/AutoLogFile')
 
 
 const supportcvSchema = new mongoose.Schema(
-        {
+{
 
     "name": {type: String, required: [true, 'please enter your full name'], trim: true},
     
@@ -16,6 +16,8 @@ const supportcvSchema = new mongoose.Schema(
 
     "files": [Object],
 
+    // Always ensure that we include release date cause its a filter condition
+    "releaseDate": {type: Date, default: Date.now, required: true, trim: true},
 
     "created": {type: Date, default: Date.now, immutable: true, trim: true},
     "updated": {type: Date, default: Date.now, trim: true,  select: false}, 
@@ -35,6 +37,8 @@ supportcvSchema.post('save', async function(doc, next){
 
 
 supportcvSchema.pre(/^find/, async function(next){
+    // Note: this model will not server anything that is not upto its realease date
+    // else remove this middleware
     this.find({releaseDate: {$lte: Date.now()}})
     this.startTime = Date.now()
     next()

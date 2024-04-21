@@ -69,6 +69,19 @@ class Apifeatures{
         return this
     }
 
+    // countDocuments() {
+    //     // Implement your method to count total data
+    //     // Example: You can use this.query.countDocuments() for Mongoose
+    //     // Replace it with your actual method
+    //     return this.query.countDocuments();
+    // }
+
+    countDocuments() {
+        // Use Mongoose countDocuments method to count total documents
+        this.totalCountPromise = this.query.model.countDocuments(this.query.getFilter());
+        return this; // Return the instance to maintain chainability
+    }
+
     paginate(){
         const page = (this.queryStr.page)*1 || 1
         const limit = (this.queryStr.limit)*1 || 20 // setting the default limit to 20

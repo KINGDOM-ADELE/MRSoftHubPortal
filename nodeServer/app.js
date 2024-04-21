@@ -32,7 +32,7 @@ app.use(express.json());
 //// DEMO start
 
 
-app.use('/api/', dynamicRateLimiter(10)); // Apply rate limiter middleware
+app.use('/api/', dynamicRateLimiter(20)); // Apply rate limiter middleware
 
 const ejs = require('ejs');
 app.set('view engine', 'ejs');
@@ -43,7 +43,8 @@ app.use(bodyParserx.json());
 
 // Require routers
 const authRouter = require('./Routes/authrouter');
-const supportcvRouter = require('./Routes/supportcvroutes');
+const usercvRouter = require('./Routes/supportcvroutes');
+const feedsRouter = require('./Routes/feedsroutes');
 
 const logger = function(req, res, next){
     next();
@@ -59,7 +60,8 @@ app.use(requestedAt);
 
 // USING THE ROUTES
 app.use('/api/v1/users', authRouter); // Mounting user/auth route
-app.use('/api/v1/supportscv', supportcvRouter); // Mounting supportcv route
+app.use('/api/v1/supportscv', usercvRouter); // Mounting supportcv route
+app.use('/api/v1/feeds', feedsRouter); // Mounting supportcv route
 
 app.use(express.static(path.join(__dirname, 'build'))); // Serve static files from the "public" directory (React build files).
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Lets us access static files in the upload folder

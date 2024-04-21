@@ -12,22 +12,27 @@ const GetUserDetailsFromHeader = require('../Utils/GetUserDetailsFromHeader')
 
 
 exports.getSupportcvs = asyncErrorHandler(async (req, res, next) => {
+    let features = new ApiFeatures(Supportcv.find(), req.query).countDocuments().filter().sort().limitfields().limitfields2().paginate();
 
-    let features = new ApiFeatures(Supportcv.find(), req.query).filter().sort().limitfields().limitfields2().paginate()
- 
-    let supportcv = await features.query
+    // Execute the query and get the result
+    let supportcv = await features.query;
 
-    req.query.page && paginationCrossCheck(Supportcv.length)
+    // Get the total count of records
+    let totalCount = await features.totalCountPromise;
 
+    console.log('RecordsEstimate', RecordsEstimate)
 
     res.status(200).json({ 
-        status : "success",
-        resource : "supportcv",
-        action : "getAll",
-        lenght : supportcv.length,
-        data : supportcv
-    }) 
-})
+        status: "success",
+        resource: "supportcv",
+        RecordsEstimate: totalCount,
+        action: "getAll",
+        length: supportcv.length,
+        data: supportcv
+    });
+});
+
+
 
 exports.getAllSupportcvsOn_ticket_id = asyncErrorHandler(async (req, res, next) => {
 

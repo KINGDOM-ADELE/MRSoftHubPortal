@@ -16,15 +16,15 @@ const SetUploadsfilePathHandler = require('../Utils/SetUploadsfilePathHandler')
 const HTMLspecialChars = require('../Utils/HTMLspecialChars')
 const UnlinkSingleFile = require('../Utils/UnlinkSingleFile')
 
-// if(process.env.NODE_ENV === "development"){
-//     HOST = process.env.DEV_HOST
-// }
-// else if(process.env.TestingForProduction = true && process.env.NODE_ENV === "production"){
-//     HOST = process.env.DEV_HOST
-// }
-// else{
-//     HOST = process.env.PROD_HOST 
-// }
+if(process.env.NODE_ENV === "development"){
+    HOST = process.env.DEV_HOST
+}
+else if(process.env.TestingForProduction = true && process.env.NODE_ENV === "production"){
+    HOST = process.env.DEV_HOST
+}
+else{
+    HOST = process.env.PROD_HOST 
+}
 
 
 
@@ -579,23 +579,28 @@ exports.forgotpassword = asyncErrorHandler(async (req, res, next) => {
 //         })  
 // })
 
-// exports.getUsers = asyncErrorHandler(async (req, res, next) => {
-//     let features = new ApiFeatures(User.find(), req.query).filter().sort().limitfields().paginate()
+exports.getUsers = asyncErrorHandler(async (req, res, next) => {
+    let features = new ApiFeatures(User.find(), req.query).countDocuments().filter().sort().limitfields().paginate()
  
-//     let user = await features.query
+        // Execute the query and get the result
+        let supportcv = await features.query;
 
-//     req.query.page && paginationCrossCheck(user.length)
+        // Get the total count of records
+        let totalCount = await features.totalCountPromise;
+
+    req.query.page && paginationCrossCheck(user.length)
     
 
-//     limitedUser = limitUserDetailsServeFields(user)
+    limitedUser = limitUserDetailsServeFields(user)
     
-//     res.status(200).json({ 
-//         status : "success",
-//         resource : "users",
-//         lenght : user.length,
-//         data : user
-//        })  
-// })
+    res.status(200).json({ 
+        status : "success",
+        resource : "users",
+        RecordsEstimate: totalCount,
+        lenght : user.length,
+        data : user
+       })  
+})
 
 
 // exports.searchUsers = asyncErrorHandler(async (req, res, next) => {
