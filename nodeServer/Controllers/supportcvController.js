@@ -20,7 +20,7 @@ exports.getSupportcvs = asyncErrorHandler(async (req, res, next) => {
     // Get the total count of records
     let totalCount = await features.totalCountPromise;
 
-    console.log('RecordsEstimate', RecordsEstimate)
+    console.log('RecordsEstimate', totalCount)
 
     res.status(200).json({ 
         status: "success",
