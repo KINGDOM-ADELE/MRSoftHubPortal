@@ -8,14 +8,13 @@ const router = express.Router()
 // ROUTES CHAINING for supportcv
 
 router.route('/')
-    .get(supportcvController.getSupportcvs)
-    .post(authController.filesTosupportcvsPath,upload.array('files'),supportcvController.postSupportcv) //allows multiple files uploads
-    // .post(supportcvController.postSupportcv) //allows multiple files uploads
+    .get(authController.protect,supportcvController.getSupportcvs)
+    .post(authController.protect,authController.filesTosupportcvsPath,upload.array('files'),supportcvController.postSupportcv) //allows multiple files uploads
 
-// router.route('/:_id')
-//     .get(supportcvController.getsupportcv)
-//     .patch(supportcvController.patchsupportcv)
-//     .put(supportcvController.putsupportcv)
-//     .delete(authController.protect,authController.restrict('admin'),supportcvController.deletesupportcv)// for single role
+router.route('/:_id')
+    .get(authController.protect,supportcvController.getSupportcv)
+    .patch(authController.protect,supportcvController.patchSupportcv)
+    .put(authController.protect,supportcvController.putSupportcv)
+    .delete(authController.protect,authController.restrict('admin'),supportcvController.deleteSupportcv)// for single role
 
 module.exports = router
