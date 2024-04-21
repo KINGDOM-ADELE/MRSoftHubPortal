@@ -44,7 +44,6 @@ app.use(bodyParserx.json());
 // Require routers
 const authRouter = require('./Routes/authrouter');
 const usercvRouter = require('./Routes/supportcvroutes');
-const feedsRouter = require('./Routes/feedsroutes');
 
 const logger = function(req, res, next){
     next();
@@ -61,7 +60,6 @@ app.use(requestedAt);
 // USING THE ROUTES
 app.use('/api/v1/users', authRouter); // Mounting user/auth route
 app.use('/api/v1/supportscv', usercvRouter); // Mounting supportcv route
-app.use('/api/v1/feeds', feedsRouter); // Mounting supportcv route
 
 app.use(express.static(path.join(__dirname, 'build'))); // Serve static files from the "public" directory (React build files).
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Lets us access static files in the upload folder
