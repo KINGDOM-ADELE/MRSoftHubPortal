@@ -1,26 +1,50 @@
-import { createContext, useState, useRef } from 'react'
+import { createContext  } from 'react'
+// import { useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export const AppContext  = createContext(null);
 
 
 export const AppContextProvider = (props) => {
-  let API_base_url
-if (process.env.NODE_ENV === 'production'){
-    API_base_url = "https://zenager.onrender.com/"
-    console.log('API_base_url', API_base_url)
+  const { children } = props; // Destructure children from props
 
+
+  let API_base_url
+  let testProd = false // determines which API_base_url to be used on build with local testing
+  if(process.env.NODE_ENV === "production"  && process.env.testProd === true ){
+    console.log('testProd', testProd)
+    console.log('case1')
+    // API_base_url = "https://zenager.onrender.com/"
+    API_base_url = "https://mrsofthubportal.onrender.com/"
+  }
+  else if (process.env.NODE_ENV === 'production' && process.env.testProd === false ){
+    console.log('case2')
+
+    // Zenager
+    // API_base_url = "http://localhost:7800/"
+    // MRSOFT HUB
+    API_base_url = "http://localhost:7990/"
+  }
+
+else if (process.env.NODE_ENV === 'production'){
+  console.log('case3')
+
+    // API_base_url = "https://zenager.onrender.com/"
+    API_base_url = "https://mrsofthubportal.onrender.com/"
+    console.log('API_base_url', API_base_url)
   }
   else{
-    API_base_url = "http://localhost:7800/"
-    // API_base_url = "http://127.0.0.1:3000/"
+    console.log('case4')
+    // Zenager
+    // API_base_url = "http://localhost:7800/"
+    // MRSOFT HUB
+    API_base_url = "http://localhost:7990/"
     console.log('API_base_url', API_base_url)
-
   }
 
-  // API_base_url= "http://localhost:5173"
 
-    const APP_NAME = 'KINGDOM_ADELE_PORTFOLIO'
-    const APP_NAME2 = `KINGDOM ADELE'S PORTFOLIO`
+    const APP_NAME = 'MRSoftHubPortal'
+  
 
   // const homeRef = useRef('home');
   // const aboutRef = useRef('about');
@@ -41,14 +65,14 @@ if (process.env.NODE_ENV === 'production'){
   // };
 
 
-  const scrollToRef = (ref) => {
-    if (ref.current) {
-      ref.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
+  // const scrollToRef = (ref) => {
+  //   if (ref.current) {
+  //     ref.current.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "start",
+  //     });
+  //   }
+  // };
 
 
   const logout = () => { 
@@ -94,20 +118,20 @@ if (process.env.NODE_ENV === 'production'){
     if(token === undefined || userObj === undefined || !token || !userObj ){ logout() }
     else{ 
          let path = './'
-               if(userObj.role === 'super'){
-                 path = `Admin`
-               }
-               else if(userObj.role === 'admin'){
-                 path = `Admin`
-               }
-               else if(userObj.role === 'user'){
-                path = `User`
-              }
-              else{
-                path = `./`
-               }
-        return (path)
-       }
+          if(userObj.role === 'super'){
+            path = `Admin`
+          }
+          else if(userObj.role === 'admin'){
+            path = `Admin`
+          }
+          else if(userObj.role === 'user'){
+          path = `User`
+        }
+        else{
+          path = `./`
+          }
+    return (path)
+    }
    } 
 
 
@@ -124,11 +148,16 @@ if (process.env.NODE_ENV === 'production'){
   }
 
 
-const contextValue = { APP_NAME, APP_NAME2, API_base_url, handleAlreadyLoggedIn, getStoredToken, getStoredUserObj, userRole, StoreToken, StoreUserObj, logout, isLoggedIn }
+const contextValue = { APP_NAME, API_base_url, handleAlreadyLoggedIn, getStoredToken, getStoredUserObj, userRole, StoreToken, StoreUserObj, logout, isLoggedIn }
 
-  return (
-    <AppContext.Provider value={ contextValue } >
-        { props.children }
-    </AppContext.Provider> 
-  )
+return (
+  <AppContext.Provider value={ contextValue } >
+      { children }
+  </AppContext.Provider> 
+)
 }
+
+// PropTypes validation for AppContextProvider props
+AppContextProvider.propTypes = {
+children: PropTypes.node.isRequired, // Validate children prop
+};

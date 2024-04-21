@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext } from './Context/App_Context'
 import { BeatLoader } from 'react-spinners';
 
 
 function Login() {
-  const { API_base_url, handleAlreadyLoggedIn, StoreToken, StoreUserObj} = useContext(AppContext)
+  // const { API_base_url, handleAlreadyLoggedIn, StoreToken, StoreUserObj} = useContext(AppContext)
+  const { API_base_url, StoreToken, StoreUserObj} = useContext(AppContext)
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -29,6 +30,7 @@ console.log('login API_base_url', API_base_url)
     setIsLoading(true);
 
     try {
+      console.log('formData', formData)
       const response = await fetch(`${API_base_url}api/v1/users/login`, {
         method: 'POST',
         headers: {

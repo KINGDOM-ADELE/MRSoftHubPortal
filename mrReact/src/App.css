@@ -139,3 +139,54 @@
 .nav-link:hover {
   color: #ccc;
 }
+
+
+/* Add this to your existing CSS file */
+.AdminHeader{
+  text-align: center;
+}
+.main_flex_container{
+  display: flex;
+  justify-content: center;
+  flex-wrap:wrap;
+}
+/* Profile card */
+.profile-card {
+  border: 1px solid #ccc;
+  max-width: 700px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 20px;
+  /* margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px; */
+}
+
+/* Profile name */
+.profile-name {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Profile email */
+.profile-email {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Profile phone */
+.profile-phone {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Profile CV */
+.profile-cv {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #555;
+}

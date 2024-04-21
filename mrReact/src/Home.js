@@ -1,10 +1,12 @@
-import React from "react";
 import Swal from 'sweetalert2';
 import "./App.css";
+import React, { useState, useContext} from 'react';
+import { AppContext } from './Context/App_Context'
 
 function Home() {
-  
-    const [formData, setFormData] = React.useState({
+  const { API_base_url } = useContext(AppContext)
+  const [btnDisbaled, setBtnDisbaled] = useState(false)
+    const [formData, setFormData] = useState({
       name: '',
       phone: '',
       email: '',
@@ -70,6 +72,7 @@ function Home() {
   
       // Handle file upload (replace with your actual backend logic)
       try {
+        setBtnDisbaled(true)
         setIsUploading(true); // Set uploading state to true
         const formData = new FormData(); // Create a FormData object for file upload
         formData.append('name', name); // Add other form data if needed
@@ -79,9 +82,9 @@ function Home() {
 
         console.log('formData', formData)
 
-        // const url = 'https://zenager.onrender.com/api/v1/supportscv'
-        const url = 'https://mrcv.onrender.com/api/v1/supportscv'
-        // const url = 'http://localhost:7990/api/v1/supportscv'
+        const url = `${API_base_url}api/v1/supportscv`
+
+        console.log('url', url)
         const response = await fetch(url, {
           method: 'POST',
           body: formData,
@@ -115,6 +118,7 @@ function Home() {
         });
       } finally {
         setIsUploading(false); // Reset uploading state
+        setBtnDisbaled(false)
       }
     };
   
@@ -155,7 +159,7 @@ function Home() {
                 />
               </label>
               {formData.cv && <p className="selected-file">Selected file: <span className="selected-file-name">{formData.cv.name}</span></p>}
-              <input type="submit" value="Submit" className="browse-button"  />
+              <input type="submit" value="Submit" className="browse-button"  disabled={btnDisbaled}/>
             </form>
           </div>
         </div>
