@@ -18,6 +18,7 @@ http://localhost:7990/api/v1/users/login
 # put/patch for logged in user 
 {{API_base_url}}api/v1/users
 
+
 # Post Cv
 # methods: get
 {{API_base_url}}api/v1/supportscv
