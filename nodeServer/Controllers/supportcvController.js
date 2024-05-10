@@ -8,8 +8,11 @@ const UnlinkMultipleFiles = require('../Utils/UnlinkMultipleFiles')
 const ProcessMultipleFilesArrayOfObjects = require('../Utils/ProcessMultipleFilesArrayOfObjects')
 const HTMLspecialChars = require('../Utils/HTMLspecialChars')
 const GetUserDetailsFromHeader = require('../Utils/GetUserDetailsFromHeader')
+const sendEmail = require('../Utils/email')
 
 
+let DATE = new Date()
+let YY = DATE.getFullYear()
 
 exports.getSupportcvs = asyncErrorHandler(async (req, res, next) => {
     let features = new ApiFeatures(Supportcv.find(), req.query).countDocuments().filter().sort().limitfields().limitfields2().paginate();
@@ -21,7 +24,6 @@ exports.getSupportcvs = asyncErrorHandler(async (req, res, next) => {
     let totalCount = await features.totalCountPromise;
 
     console.log('RecordsEstimate', totalCount)
-
     
     res.status(200).json({ 
         status: "success",
@@ -64,6 +66,78 @@ exports.postSupportcv = asyncErrorHandler(async (req, res, next) => {
     }
     
     const supportcv = await Supportcv.create(req.body) // create the supportcv
+
+
+    
+    ///
+    //4 SEND THE TOKEN TO THE USER VIA EMAIL 
+
+
+
+    const message = `<html><body>
+    <p>
+    Hi ${req.body.name}</p> 
+    
+    Your resume (CV) has been received succesffully.
+    <p>
+    We will notify you about your next step, please await our response.
+    </p>
+    
+    
+    <p>
+    For information on ${process.env.ORG_NAME} visit <a href='${process.env.ORG_WEBSIT}'>${process.env.ORG_WEBSIT}</a>
+    </p>
+    
+    WITH ${process.env.ORG_NAME.toUpperCase()}, </br>
+    YOUR FUTURE AS A TECH ENGINEER IS BRIGHT.
+    
+    <p>
+    Thank you for choosing ${process.env.ORG_NAME}.
+    </p>
+    
+    <p>
+    ${req.protocol}://${HOST}
+    YY
+    </p>
+   
+    <p>
+    ${YY} ${process.env.ORG_NAME}, Ensuring the best of service.
+    </p>
+
+    </body></html>`;
+
+
+
+    // let emailverificationMessage;
+    let tries = 0
+    let success = 0
+    let errormessage = ''
+    let Subject= ''
+    const sendAnEmail = async () => {
+        tries += 1
+        try{
+            await sendEmail({
+                email: req.body.email,
+                subject: "Resume received",
+                message: message
+            })
+            Subject = "Resume received",
+            success += 1
+        }
+        catch(err){
+            // destroy the saved token and then throw error 
+            errormessage =`There is an error sending email. Please try again later`
+
+        }
+    }
+    while(tries < 5 && success < 1){
+        await sendAnEmail () // allows 5 tries to send email before proceeding
+    }
+     console.log( `proceeding after attempts: ${tries} and success: ${success}`)
+     if (success < 1){
+        // return next(new CustomError(errormessage, 500))
+     }
+    ///
 
     res.status(201).json({ 
         status : "success",

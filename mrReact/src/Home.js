@@ -2,6 +2,8 @@ import Swal from 'sweetalert2';
 import "./App.css";
 import React, { useState, useContext} from 'react';
 import { AppContext } from './Context/App_Context'
+import { BeatLoader } from 'react-spinners';
+
 
 function Home() {
   const { API_base_url } = useContext(AppContext)
@@ -90,6 +92,8 @@ function Home() {
           body: formData,
         });
   
+        console.log('response.ok', response.ok)
+
         if (!response.ok) {
           throw new Error('Failed to submit form');
         }
@@ -130,13 +134,13 @@ function Home() {
           <div className="jumbotron col-12">
             <form 
               className={`file-upload-form ${isDragging ? 'dragging' : ''}`}
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               onDragEnter={handleDragEnter}
               onDragLeave={handleDragLeave}
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
             >
-              <h2 style={{textTransform:"capitalize", fontWeight:"300"}}><strong>Please complete this form.</strong></h2>
+              <h2 style={{textTransform:"capitalize", fontWeight:"300"}}><strong>Please complete this form with valid details, Check your email for confirmation.</strong></h2>
               <input onChange={handleChange} name="name"  type="text" placeholder="Your Name: " className="formInput" value={formData.name} />
               <input onChange={handleChange} name="phone"  type="tel" placeholder="Your phone: " className="formInput" value={formData.phone} />
               <input onChange={handleChange} name="email"  type="email" placeholder="Your Email: " className="formInput" value={formData.email} />
@@ -148,18 +152,27 @@ function Home() {
                   </svg>
                   <p>Drag and Drop</p>
                   <p>or</p>
-                  <span className={`browse-button ${isUploading ? 'uploading' : ''}`}>Browse file</span>
+                  <span className={`browse-button`}>Browse file</span>
                 </div>
                 <input 
                   onChange={handleChange} 
                   id="file" 
                   name="cv"  
                   type="file" 
+                  accept=".pdf, .doc, .docx"
                   className="file-input" 
                 />
               </label>
               {formData.cv && <p className="selected-file">Selected file: <span className="selected-file-name">{formData.cv.name}</span></p>}
-              <input type="submit" value="Submit" className="browse-button"  disabled={btnDisbaled}/>
+              {/* <input type="submit" value="Submit" className="browse-button"  disabled={btnDisbaled}/> */}
+              {/* <button onClick={handleSubmit} style={buttonStyle}> */}
+              <button onClick={handleSubmit} className="browse-button" disabled={btnDisbaled}>
+                {isUploading ? (
+                  <BeatLoader color='#ffffff' loading={isUploading} size={8} />
+                ) : (
+                  'SUBMIT'
+                )}
+              </button>
             </form>
           </div>
         </div>

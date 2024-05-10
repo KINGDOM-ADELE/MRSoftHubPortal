@@ -142,7 +142,7 @@
 
 
 /* Add this to your existing CSS file */
-.AdminHeader{
+.centerMe, .AdminHeader{
   text-align: center;
 }
 .main_flex_container{

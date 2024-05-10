@@ -11,7 +11,7 @@ const Admin = () => {
   const [apiReturnedData, setApiReturnedData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [RecordsEstimate, setRecordsEstimate] = useState(0);
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
 
   let tempFetchData = useRef();
 

@@ -9,7 +9,7 @@ const router = express.Router()
 
 router.route('/')
     .get(authController.protect,supportcvController.getSupportcvs)
-    .post(authController.protect,authController.filesTosupportcvsPath,upload.array('files'),supportcvController.postSupportcv) //allows multiple files uploads
+    .post(authController.filesTosupportcvsPath,upload.array('files'),supportcvController.postSupportcv) //allows multiple files uploads
 
 router.route('/:_id')
     .get(authController.protect,supportcvController.getSupportcv)

@@ -16,6 +16,9 @@ const SetUploadsfilePathHandler = require('../Utils/SetUploadsfilePathHandler')
 const HTMLspecialChars = require('../Utils/HTMLspecialChars')
 const UnlinkSingleFile = require('../Utils/UnlinkSingleFile')
 
+let DATE = new Date()
+let YY = DATE.getFullYear()
+
 if(process.env.NODE_ENV === "development"){
     HOST = process.env.DEV_HOST
 }
