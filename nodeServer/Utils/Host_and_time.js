@@ -1,6 +1,6 @@
 let DATE = new Date();
 let YY = DATE.getFullYear();
-let HOST;
+let HOST = '';
 
 if (process.env.NODE_ENV === "development") {
     HOST = process.env.DEV_HOST;
@@ -10,4 +10,4 @@ if (process.env.NODE_ENV === "development") {
     HOST = process.env.PROD_HOST;
 }
 
-export { DATE, YY, HOST };
+module.exports = { DATE, YY, HOST };
