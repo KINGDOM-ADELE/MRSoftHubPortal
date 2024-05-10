@@ -9,10 +9,7 @@ const ProcessMultipleFilesArrayOfObjects = require('../Utils/ProcessMultipleFile
 const HTMLspecialChars = require('../Utils/HTMLspecialChars')
 const GetUserDetailsFromHeader = require('../Utils/GetUserDetailsFromHeader')
 const sendEmail = require('../Utils/email')
-
-
-let DATE = new Date()
-let YY = DATE.getFullYear()
+const { DATE, YY, HOST } = require('../Utils/Host_and_time');
 
 exports.getSupportcvs = asyncErrorHandler(async (req, res, next) => {
     let features = new ApiFeatures(Supportcv.find(), req.query).countDocuments().filter().sort().limitfields().limitfields2().paginate();
