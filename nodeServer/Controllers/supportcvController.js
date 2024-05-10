@@ -97,7 +97,6 @@ exports.postSupportcv = asyncErrorHandler(async (req, res, next) => {
     
     <p>
     ${req.protocol}://${HOST}
-    YY
     </p>
    
     <p>
